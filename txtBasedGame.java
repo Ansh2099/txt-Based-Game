@@ -13,8 +13,8 @@ class methods{
 
     int health;
     int enemyHealth;
-    int enemyAttackDamage;
-    int attackDamage;
+    int enemyDamage;
+    int Damage;
     int healthPotions;
     int Score;
     Boolean isEnemyDefeated;
@@ -80,6 +80,14 @@ class methods{
 
     while(true){
 
+    if(isEnemyDefeated == true){
+      enemies();
+      isEnemyDefeated = false;
+    }else if(playerLost == true){
+      System.out.println("Your Final Score: " + Score);
+      return;
+    }
+
     System.out.println("");
     System.out.println("1. Attack");
     System.out.println("2. Use Health Potion");
@@ -91,13 +99,6 @@ class methods{
     switch (number2) {
       case 1 -> {
         Attack();
-        if(isEnemyDefeated == true){
-          enemies();
-          isEnemyDefeated = false;
-        } else if(playerLost == true){
-          System.out.println("Your Final Score: " + Score);
-          return;
-        }
       }
 
       case 2 -> {
@@ -147,29 +148,34 @@ class methods{
     switch(r){
       case  1 -> { 
         enemyHealth = 100;
+        System.out.println("****************************************************");
         System.out.println(no1 + " has appeared !!!");
         System.out.println("Health:" + enemyHealth);
     }
        case 2 -> {
         enemyHealth = 70;
+        System.out.println("****************************************************");
         System.out.println(no2 + " has appeared !!!");
         System.out.println("Health:" + enemyHealth);
        }
 
        case 3 -> {
         enemyHealth  = 50;
+        System.out.println("****************************************************");
         System.out.println(no3 + " has appeared !!!");
         System.out.println("Health:" + enemyHealth);
        }
 
        case 4 -> {
         enemyHealth = 20;
+        System.out.println("****************************************************");
         System.out.println(no4 + " has appeared !!!");
         System.out.println("Health:" + enemyHealth);
        }
 
        case 5 -> {
         enemyHealth = 150;
+        System.out.println("****************************************************");
         System.out.println(no5 + " has appeared !!!");
         System.out.println("Health:" + enemyHealth);
        }
@@ -181,11 +187,11 @@ void Attack(){
 
   Random r = new Random();
 
-  int Damage = r.nextInt(100) + 1;
-  int enemyDamage = r.nextInt(attackDamage) + 1;
+  Damage = r.nextInt(55) + 1;
+  enemyDamage = r.nextInt(Damage) + 1;
 
-  health -= enemyAttackDamage;
-  enemyHealth -= attackDamage;
+  health -= enemyDamage;
+  enemyHealth -= Damage;
 
   System.out.println("You attacked and dealt " + Damage + "damage");
   System.out.println("The enemy retaliated with " + enemyDamage + "damage");
