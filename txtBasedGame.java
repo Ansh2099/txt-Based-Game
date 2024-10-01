@@ -14,11 +14,13 @@ class methods{
     int health;
     int enemyHealth;
     int enemyDamage;
-    int Damage;
+    int damage;
     int healthPotions;
     int Score;
     Boolean isEnemyDefeated;
     Boolean playerLost;
+    Boolean isUltimateAttackActivated = false;
+    int noOfEnemyDefeated = 2;
 
   Scanner sc = new Scanner(System.in);
 
@@ -45,12 +47,14 @@ class methods{
       case 1 -> {
          health = 200;
          healthPotions = 10;
+         System.out.println("");
          System.out.println("Health: " + health);
          System.out.println("Health Potions: " + healthPotions);
       }
       case 2 -> {
         health = 150;
         healthPotions = 5;
+        System.out.println("");
         System.out.println("Health: " + health);
         System.out.println("Health Potions: " + healthPotions);
       }
@@ -59,6 +63,7 @@ class methods{
         health = 100;
         healthPotions = 0;
 
+        System.out.println("");
         System.out.println("Health: " + health);
         System.out.println("Health Potions: " + healthPotions);
       }
@@ -81,10 +86,23 @@ class methods{
     while(true){
 
     if(isEnemyDefeated == true){
+
       enemies();
+      if(noOfEnemyDefeated > 0){
+        noOfEnemyDefeated--;
+      }else if(noOfEnemyDefeated == 0){
+      isUltimateAttackActivated = true;
+      noOfEnemyDefeated = 2;
+      }
+
       isEnemyDefeated = false;
+
     }else if(playerLost == true){
+
       System.out.println("Your Final Score: " + Score);
+      System.out.println("");
+      System.out.println("Thank You for Playing !!!");
+      System.out.println("PLease come again :)");
       return;
     }
 
@@ -102,32 +120,20 @@ class methods{
       }
 
       case 2 -> {
+        useHealthPotions();
+      }
 
-        if(health < 200  && healthPotions > 0){
+      case 3 -> {
 
-        health += 50;
-        healthPotions -= 1;
-        System.out.println("You used a Health Potion ");
         System.out.println("");
-        System.out.println("Health: " + health);
-        System.out.println("Remaining Potions: " + healthPotions);
-
-      } else if(health >= 200){
-
-        System.out.println("Health already Full !!!");
-
-      } else if(healthPotions <= 0){
-
-        System.out.println("No more Health Potions remain !!!");
-
-      }
-      }
-    
-      default -> {
-
+        System.out.println("Your Final Score: " + Score);
+        System.out.println("");
         System.out.println("Thank You for Playing !!!");
-        System.out.println("PLease come again");
+        System.out.println("PLease come again :)");
         return;
+      }
+       default -> {
+        System.out.println("Please Enter a valid number !!!");
       }
     }
   }
@@ -151,7 +157,7 @@ class methods{
         System.out.println("****************************************************");
         System.out.println(no1 + " has appeared !!!");
         System.out.println("Health:" + enemyHealth);
-    }
+      }
        case 2 -> {
         enemyHealth = 70;
         System.out.println("****************************************************");
@@ -187,26 +193,78 @@ void Attack(){
 
   Random r = new Random();
 
-  Damage = r.nextInt(55) + 1;
-  enemyDamage = r.nextInt(Damage) + 1;
+  if(isUltimateAttackActivated == true){
+    damage = enemyHealth;
+
+  }else{
+    damage = r.nextInt(55) + 1;
+  }
+  
+  enemyDamage = r.nextInt(damage) + 1;
 
   health -= enemyDamage;
-  enemyHealth -= Damage;
+  enemyHealth -= damage;
 
-  System.out.println("You attacked and dealt " + Damage + "damage");
-  System.out.println("The enemy retaliated with " + enemyDamage + "damage");
-  System.out.println("Your Remaining Health: " + health);
-  System.out.println("Enemy remaining Health: " + enemyHealth);
+  if(isUltimateAttackActivated == true){
 
+    System.out.println("You used your ULTIMATE ATTACK");
+    System.out.println("THE ENEMY HAS PERISHED FROM THE FACE OF THE EARTH");
+    System.out.println("");
+    isUltimateAttackActivated = false;
+    
+  } else if(isUltimateAttackActivated == false){
+
+    System.out.println("");
+    System.out.println("You attacked and dealt " + damage + " damage");
+    System.out.println("The enemy retaliated with " + enemyDamage + " damage");
+    System.out.println("");
+    System.out.println("Your Remaining Health: " + health);
+    System.out.println("Enemy remaining Health: " + enemyHealth);
+    System.out.println("");
+  }
+
+  
   if(enemyHealth <= 0){
+
     System.out.println("Enemy has been DEFEATED !!! ");
+    System.out.println("");
+    System.out.println("No of Enemies to Ultimate Attack: " + noOfEnemyDefeated);
+    System.out.println("");
+
+    if(noOfEnemyDefeated == 0){
+
+      System.out.println("ULTIMATE ATTACK AVAILABLE !!!");
+      System.out.println("");
+    }
+
     isEnemyDefeated = true;
     Score++;
-    return;
+
   }else if(health <= 0){
+
     System.out.println("You LOST !!!");
     playerLost = true;
-    return;
+    
+  }
+}
+
+void useHealthPotions(){
+  if(health < 200  && healthPotions > 0){
+
+    health += 50;
+    healthPotions -= 1;
+    System.out.println("You used a Health Potion ");
+    System.out.println("");
+    System.out.println("Health: " + health);
+    System.out.println("Remaining Potions: " + healthPotions);
+
+  } else if(health >= 200){
+
+    System.out.println("Health already Full !!!");
+
+  } else if(healthPotions <= 0){
+
+    System.out.println("No more Health Potions remain !!!");
   }
 }
 }
