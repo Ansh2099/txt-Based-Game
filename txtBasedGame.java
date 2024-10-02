@@ -4,8 +4,8 @@ import java.util.Scanner;
 public class txtBasedGame{
     public static void main(String[] args){
 
-        methods M = new methods();
-        M.showMenu();
+        methods gameMethods = new methods();
+        gameMethods.showMenu();
     }
 }
 
