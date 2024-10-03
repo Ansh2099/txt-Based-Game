@@ -1,3 +1,4 @@
+import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -22,249 +23,257 @@ class methods{
     Boolean isUltimateAttackActivated = false;
     int noOfEnemyDefeated = 2;
 
-  Scanner sc = new Scanner(System.in);
+    Scanner sc = new Scanner(System.in);
 
-  void showMenu(){
+    void showMenu(){
 
-    System.out.println("****************************************************");
-    System.out.println("");
-    System.out.println("Welcome to the Dungeon !!!");
-    System.out.println("");
-    System.out.println("****************************************************");
-    System.out.println("Choose your Difficulty");
-    System.out.println("1. Easy");
-    System.out.println("2. Medium");
-    System.out.println("3. Hard");
-    System.out.println("");
-    System.out.println("****************************************************");
-
-    while(true){
-
-    int number = sc.nextInt();
-
-    switch(number){
-
-      case 1 -> {
-         health = 200;
-         healthPotions = 10;
-         System.out.println("");
-         System.out.println("Health: " + health);
-         System.out.println("Health Potions: " + healthPotions);
-      }
-      case 2 -> {
-        health = 150;
-        healthPotions = 5;
+        System.out.println("****************************************************");
         System.out.println("");
-        System.out.println("Health: " + health);
-        System.out.println("Health Potions: " + healthPotions);
-      }
-
-      case 3 -> {
-        health = 100;
-        healthPotions = 0;
-
+        System.out.println("Welcome to the Dungeon !!!");
         System.out.println("");
-        System.out.println("Health: " + health);
-        System.out.println("Health Potions: " + healthPotions);
-      }
+        System.out.println("****************************************************");
+        System.out.println("Choose your Difficulty");
+        System.out.println("1. Easy");
+        System.out.println("2. Medium");
+        System.out.println("3. Hard");
+        System.out.println("");
+        System.out.println("****************************************************");
 
-      default -> {
-        System.out.println("Please enter a valid number.");
-        break;
-      }
+        try {
+            while (true) {
+                int number = 0;
+                boolean validInput = false;
+
+                // Get valid input for difficulty level
+                while (!validInput) {
+                    try {
+                        number = sc.nextInt();
+                        validInput = true;
+                    } catch (InputMismatchException e) {
+                        System.out.println("Invalid input, please enter a valid number (1, 2, or 3).");
+                        sc.next(); // Clear the invalid input
+                    }
+                }
+
+                switch (number) {
+                    case 1 -> {
+                        health = 200;
+                        healthPotions = 10;
+                        System.out.println("");
+                        System.out.println("Health: " + health);
+                        System.out.println("Health Potions: " + healthPotions);
+                    }
+                    case 2 -> {
+                        health = 150;
+                        healthPotions = 5;
+                        System.out.println("");
+                        System.out.println("Health: " + health);
+                        System.out.println("Health Potions: " + healthPotions);
+                    }
+                    case 3 -> {
+                        health = 100;
+                        healthPotions = 0;
+                        System.out.println("");
+                        System.out.println("Health: " + health);
+                        System.out.println("Health Potions: " + healthPotions);
+                    }
+                    default -> {
+                        System.out.println("Please enter a valid number.");
+                        break;
+                    }
+                }
+
+                System.out.println("");
+                System.out.println("Off you go !!");
+                System.out.println("");
+
+                enemies();
+
+                isEnemyDefeated = false;
+                playerLost = false;
+
+                while (true) {
+
+                    if (isEnemyDefeated == true) {
+                        enemies();
+                        if (noOfEnemyDefeated > 0) {
+                            noOfEnemyDefeated--;
+                        } else if (noOfEnemyDefeated == 0) {
+                            isUltimateAttackActivated = true;
+                            noOfEnemyDefeated = 2;
+                        }
+
+                        isEnemyDefeated = false;
+
+                    } else if (playerLost == true) {
+
+                        System.out.println("Your Final Score: " + Score);
+                        System.out.println("");
+                        System.out.println("Thank You for Playing !!!");
+                        System.out.println("PLease come again :)");
+                        return;
+                    }
+
+                    System.out.println("");
+                    System.out.println("1. Attack");
+                    System.out.println("2. Use Health Potion");
+                    System.out.println("3. Exit the Dungeon");
+                    System.out.println("");
+
+                    int number2 = 0;
+                    validInput = false;
+
+                    // Get valid input for action selection
+                    while (!validInput) {
+                        try {
+                            number2 = sc.nextInt();
+                            validInput = true;
+                        } catch (InputMismatchException e) {
+                            System.out.println("Invalid input, please enter a valid number (1, 2, or 3).");
+                            sc.next(); // Clear the invalid input
+                        }
+                    }
+
+                    switch (number2) {
+                        case 1 -> Attack();
+                        case 2 -> useHealthPotions();
+                        case 3 -> {
+                            System.out.println("");
+                            System.out.println("Your Final Score: " + Score);
+                            System.out.println("");
+                            System.out.println("Thank You for Playing !!!");
+                            System.out.println("PLease come again :)");
+                            return;
+                        }
+                        default -> System.out.println("Please Enter a valid number !!!");
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("An unexpected error occurred: " + e.getMessage());
+        } finally {
+            sc.close();
+        }
     }
 
-    System.out.println("");
-    System.out.println("Off you go !!");
-    System.out.println("");
+    void enemies() {
+        String no1 = "Minotaur";
+        String no2 = "Assassin";
+        String no3 = "Goblin";
+        String no4 = "Slime";
+        String no5 = "Giant Spider";
 
-      enemies();
+        Random rc = new Random();
+        int r = rc.nextInt(5) + 1;
 
-      isEnemyDefeated = false;
-      playerLost = false;
-
-    while(true){
-
-    if(isEnemyDefeated == true){
-
-      enemies();
-      if(noOfEnemyDefeated > 0){
-        noOfEnemyDefeated--;
-      }else if(noOfEnemyDefeated == 0){
-      isUltimateAttackActivated = true;
-      noOfEnemyDefeated = 2;
-      }
-
-      isEnemyDefeated = false;
-
-    }else if(playerLost == true){
-
-      System.out.println("Your Final Score: " + Score);
-      System.out.println("");
-      System.out.println("Thank You for Playing !!!");
-      System.out.println("PLease come again :)");
-      return;
+        switch (r) {
+            case 1 -> {
+                enemyHealth = 100;
+                System.out.println("****************************************************");
+                System.out.println(no1 + " has appeared !!!");
+                System.out.println("Health:" + enemyHealth);
+            }
+            case 2 -> {
+                enemyHealth = 70;
+                System.out.println("****************************************************");
+                System.out.println(no2 + " has appeared !!!");
+                System.out.println("Health:" + enemyHealth);
+            }
+            case 3 -> {
+                enemyHealth = 50;
+                System.out.println("****************************************************");
+                System.out.println(no3 + " has appeared !!!");
+                System.out.println("Health:" + enemyHealth);
+            }
+            case 4 -> {
+                enemyHealth = 20;
+                System.out.println("****************************************************");
+                System.out.println(no4 + " has appeared !!!");
+                System.out.println("Health:" + enemyHealth);
+            }
+            case 5 -> {
+                enemyHealth = 150;
+                System.out.println("****************************************************");
+                System.out.println(no5 + " has appeared !!!");
+                System.out.println("Health:" + enemyHealth);
+            }
+        }
     }
 
-    System.out.println("");
-    System.out.println("1. Attack");
-    System.out.println("2. Use Health Potion");
-    System.out.println("3. Exit the Dungeon");
-    System.out.println("");
+    void Attack() {
 
-    int number2 = sc.nextInt();
+        Random r = new Random();
 
-    switch (number2) {
-      case 1 -> {
-        Attack();
-      }
+        if (isUltimateAttackActivated == true) {
+            damage = enemyHealth;
 
-      case 2 -> {
-        useHealthPotions();
-      }
+        } else {
+            damage = r.nextInt(55) + 1;
+        }
 
-      case 3 -> {
+        enemyDamage = r.nextInt(damage) + 1;
 
-        System.out.println("");
-        System.out.println("Your Final Score: " + Score);
-        System.out.println("");
-        System.out.println("Thank You for Playing !!!");
-        System.out.println("PLease come again :)");
-        return;
-      }
-       default -> {
-        System.out.println("Please Enter a valid number !!!");
-      }
-    }
-  }
-}
-}
+        health -= enemyDamage;
+        enemyHealth -= damage;
 
-  void enemies(){
+        if (isUltimateAttackActivated == true) {
 
-    String no1 = "Minotaur";
-    String no2 = "Assassin";
-    String no3 = "Goblin";
-    String no4 = "Slime";
-    String no5 = "Giant Spider";
+            System.out.println("You used your ULTIMATE ATTACK");
+            System.out.println("THE ENEMY HAS PERISHED FROM THE FACE OF THE EARTH");
+            System.out.println("");
+            isUltimateAttackActivated = false;
 
-    Random rc = new Random();
-    int r = rc.nextInt(5) + 1;
+        } else if (isUltimateAttackActivated == false) {
 
-    switch(r){
-      case  1 -> { 
-        enemyHealth = 100;
-        System.out.println("****************************************************");
-        System.out.println(no1 + " has appeared !!!");
-        System.out.println("Health:" + enemyHealth);
-      }
-       case 2 -> {
-        enemyHealth = 70;
-        System.out.println("****************************************************");
-        System.out.println(no2 + " has appeared !!!");
-        System.out.println("Health:" + enemyHealth);
-       }
+            System.out.println("");
+            System.out.println("You attacked and dealt " + damage + " damage");
+            System.out.println("The enemy retaliated with " + enemyDamage + " damage");
+            System.out.println("");
+            System.out.println("Your Remaining Health: " + health);
+            System.out.println("Enemy remaining Health: " + enemyHealth);
+            System.out.println("");
+        }
 
-       case 3 -> {
-        enemyHealth  = 50;
-        System.out.println("****************************************************");
-        System.out.println(no3 + " has appeared !!!");
-        System.out.println("Health:" + enemyHealth);
-       }
+        if (enemyHealth <= 0) {
 
-       case 4 -> {
-        enemyHealth = 20;
-        System.out.println("****************************************************");
-        System.out.println(no4 + " has appeared !!!");
-        System.out.println("Health:" + enemyHealth);
-       }
+            System.out.println("Enemy has been DEFEATED !!! ");
+            System.out.println("");
+            System.out.println("No of Enemies to Ultimate Attack: " + noOfEnemyDefeated);
+            System.out.println("");
 
-       case 5 -> {
-        enemyHealth = 150;
-        System.out.println("****************************************************");
-        System.out.println(no5 + " has appeared !!!");
-        System.out.println("Health:" + enemyHealth);
-       }
+            if (noOfEnemyDefeated == 0) {
 
-  }
-}
+                System.out.println("ULTIMATE ATTACK AVAILABLE !!!");
+                System.out.println("");
+            }
 
-void Attack(){
+            isEnemyDefeated = true;
+            Score++;
 
-  Random r = new Random();
+        } else if (health <= 0) {
 
-  if(isUltimateAttackActivated == true){
-    damage = enemyHealth;
-
-  }else{
-    damage = r.nextInt(55) + 1;
-  }
-  
-  enemyDamage = r.nextInt(damage) + 1;
-
-  health -= enemyDamage;
-  enemyHealth -= damage;
-
-  if(isUltimateAttackActivated == true){
-
-    System.out.println("You used your ULTIMATE ATTACK");
-    System.out.println("THE ENEMY HAS PERISHED FROM THE FACE OF THE EARTH");
-    System.out.println("");
-    isUltimateAttackActivated = false;
-    
-  } else if(isUltimateAttackActivated == false){
-
-    System.out.println("");
-    System.out.println("You attacked and dealt " + damage + " damage");
-    System.out.println("The enemy retaliated with " + enemyDamage + " damage");
-    System.out.println("");
-    System.out.println("Your Remaining Health: " + health);
-    System.out.println("Enemy remaining Health: " + enemyHealth);
-    System.out.println("");
-  }
-
-  
-  if(enemyHealth <= 0){
-
-    System.out.println("Enemy has been DEFEATED !!! ");
-    System.out.println("");
-    System.out.println("No of Enemies to Ultimate Attack: " + noOfEnemyDefeated);
-    System.out.println("");
-
-    if(noOfEnemyDefeated == 0){
-
-      System.out.println("ULTIMATE ATTACK AVAILABLE !!!");
-      System.out.println("");
+            System.out.println("You LOST !!!");
+            playerLost = true;
+        }
     }
 
-    isEnemyDefeated = true;
-    Score++;
+    void useHealthPotions() {
+        if (health < 200 && healthPotions > 0) {
 
-  }else if(health <= 0){
+            health += 50;
+            healthPotions -= 1;
+            System.out.println("You used a Health Potion ");
+            System.out.println("");
+            System.out.println("Health: " + health);
+            System.out.println("Remaining Potions: " + healthPotions);
 
-    System.out.println("You LOST !!!");
-    playerLost = true;
-    
-  }
-}
+        } else if (health >= 200) {
 
-void useHealthPotions(){
-  if(health < 200  && healthPotions > 0){
+            System.out.println("Health already Full !!!");
 
-    health += 50;
-    healthPotions -= 1;
-    System.out.println("You used a Health Potion ");
-    System.out.println("");
-    System.out.println("Health: " + health);
-    System.out.println("Remaining Potions: " + healthPotions);
+        } else if (healthPotions <= 0) {
 
-  } else if(health >= 200){
-
-    System.out.println("Health already Full !!!");
-
-  } else if(healthPotions <= 0){
-
-    System.out.println("No more Health Potions remain !!!");
-  }
-}
+            System.out.println("No more Health Potions remain !!!");
+        }
+    }
 }
