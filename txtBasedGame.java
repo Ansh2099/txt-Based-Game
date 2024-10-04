@@ -44,7 +44,6 @@ class methods{
                 int number = 0;
                 boolean validInput = false;
 
-                // Get valid input for difficulty level
                 while (!validInput) {
                     try {
                         number = sc.nextInt();
@@ -123,7 +122,6 @@ class methods{
                     int number2 = 0;
                     validInput = false;
 
-                    // Get valid input for action selection
                     while (!validInput) {
                         try {
                             number2 = sc.nextInt();
@@ -162,19 +160,20 @@ class methods{
         String no3 = "Goblin";
         String no4 = "Slime";
         String no5 = "Giant Spider";
+        String no6 = "Mummified Soldier";
 
         Random rc = new Random();
-        int r = rc.nextInt(5) + 1;
+        int r = rc.nextInt(6) + 1;
 
         switch (r) {
             case 1 -> {
-                enemyHealth = 100;
+                enemyHealth = 120;
                 System.out.println("****************************************************");
                 System.out.println(no1 + " has appeared !!!");
                 System.out.println("Health:" + enemyHealth);
             }
             case 2 -> {
-                enemyHealth = 70;
+                enemyHealth = 75;
                 System.out.println("****************************************************");
                 System.out.println(no2 + " has appeared !!!");
                 System.out.println("Health:" + enemyHealth);
@@ -195,6 +194,12 @@ class methods{
                 enemyHealth = 150;
                 System.out.println("****************************************************");
                 System.out.println(no5 + " has appeared !!!");
+                System.out.println("Health:" + enemyHealth);
+            }
+            case 6 -> {
+                enemyHealth = 90;
+                System.out.println("****************************************************");
+                System.out.println(no6 + " has appeared !!!");
                 System.out.println("Health:" + enemyHealth);
             }
         }
