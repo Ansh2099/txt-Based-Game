@@ -161,9 +161,10 @@ class methods{
         String no4 = "Slime";
         String no5 = "Giant Spider";
         String no6 = "Mummified Soldier";
+        String no7 = "Giant Slime";
 
         Random rc = new Random();
-        int r = rc.nextInt(6) + 1;
+        int r = rc.nextInt(7) + 1;
 
         switch (r) {
             case 1 -> {
@@ -200,6 +201,12 @@ class methods{
                 enemyHealth = 90;
                 System.out.println("****************************************************");
                 System.out.println(no6 + " has appeared !!!");
+                System.out.println("Health:" + enemyHealth);
+            }
+            case 7 -> {
+                enemyHealth = 80;
+                System.out.println("****************************************************");
+                System.out.println(no7 + " has appeared !!!");
                 System.out.println("Health:" + enemyHealth);
             }
         }
